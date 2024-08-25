@@ -9,7 +9,7 @@ repository = "https://github.com/ayonsaha2011/aws_signer"
 homepage = "https://github.com/ayonsaha2011/aws_signer"
 documentation = "https://docs.rs/aws_signer"
 readme = "README.md"
-keywords = ["aws", "cloudflare", "worker", "workers-rs", "R2","signature", "signing", "rust"]
+keywords = ["aws", "cloudflare", "worker", "R2","signature"]
 categories = ["web-programming", "network-programming"]
 
 [dependencies]
