@@ -1,6 +1,6 @@
 [package]
 name = "aws_signer"
-version = "0.0.1"
+version = "0.0.2"
 edition = "2021"
 authors = ["Ayon Saha <ayonsaha2011@gmail.com"]
 license = "MIT"
