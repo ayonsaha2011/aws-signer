@@ -1,0 +1,22 @@
+[package]
+name = "aws_signer"
+version = "0.0.1"
+edition = "2021"
+authors = ["Ayon Saha <ayonsaha2011@gmail.com"]
+license = "MIT"
+description = "A Rust library for AWS Signature Version 4 signing"
+repository = "https://github.com/ayonsaha2011/aws_signer"
+homepage = "https://github.com/ayonsaha2011/aws_signer"
+documentation = "https://docs.rs/aws_signer"
+readme = "README.md"
+keywords = ["aws", "cloudflare", "worker", "workers-rs", "R2","signature", "signing", "rust"]
+categories = ["web-programming", "network-programming"]
+
+[dependencies]
+reqwest = "0.12.7"
+chrono = "0.4"
+sha2 = "0.10"
+hmac = "0.12"
+url = "2"
+tokio = { version = "1", features = ["time"] }
+hex = "0.4.3"
