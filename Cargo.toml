@@ -20,3 +20,6 @@ hmac = "0.12"
 url = "2"
 tokio = { version = "1", features = ["time"] }
 hex = "0.4.3"
+
+[dev-dependencies]
+tokio = { version = "1", features = ["full"] }

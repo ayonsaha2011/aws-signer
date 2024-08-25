@@ -24,6 +24,30 @@ impl fmt::Display for AwsError {
 impl Error for AwsError {}
 
 
+trait ToUrlString {
+    fn to_url_string(&self) -> String;
+}
+
+impl ToUrlString for Request {
+    fn to_url_string(&self) -> String {
+        let mut url = self.url().clone();
+
+        // Extract headers and treat them as query parameters for this example
+        let headers = self.headers();
+
+        for (key, value) in headers.iter() {
+            // Convert header name and value to strings
+            let key_str = key.as_str();
+            let value_str = value.to_str().unwrap_or("");
+
+            // Append as query parameters (or handle as needed)
+            url.query_pairs_mut().append_pair(key_str, value_str);
+        }
+
+        url.to_string()
+    }
+}
+
 pub struct AwsClient {
     access_key_id: String,
     secret_access_key: String,
@@ -100,7 +124,6 @@ impl AwsClient {
         // Update headers and URL in the request
         headers = signer.headers;
         let url = signer.url;
-
         let mut req = Request::new(method.parse()?, url);
         *req.headers_mut() = headers;
         if let Some(body) = body {
@@ -108,6 +131,17 @@ impl AwsClient {
         }
 
         Ok(req)
+    }
+
+    pub async fn sign_url_string_with_headers(&self, signed_request: Request) -> Result<String, Box<dyn
+    Error>> {
+        let mut signed_url = signed_request.url().to_string();
+        signed_url.push_str("?");
+        for (key, value) in signed_request.headers() {
+            signed_url.push_str(&format!("{}={}&", key, value.to_str()?));
+        }
+        signed_url.pop(); // Remove trailing '&'
+        Ok(signed_url)
     }
 
     pub async fn fetch(&self, input: Request, init: Option<AwsRequestInit>) -> Result<Response, Box<dyn Error>> {
@@ -340,5 +374,52 @@ fn guess_service_region(url: &Url, _headers: &HeaderMap) -> (String, String) {
         ("s3".to_string(), "auto".to_string())
     } else {
         ("".to_string(), "".to_string()) // Replace with actual logic
+    }
+}
+
+#[cfg(test)]
+mod tests {
+    use super::*;
+    use reqwest::{Method, Url};
+    use reqwest::header::HeaderMap;
+
+    #[tokio::test]
+    async fn test_sign_request() {
+        let access_key_id = "test_access_key".to_string();
+        let secret_key = "test_secret".to_string();
+        let region = "us-east-1".to_string();
+        let client = AwsClient::new(
+            access_key_id.clone(),
+            secret_key.clone(),
+            None,
+            Some("s3".to_string()),
+            Some(region.clone()),
+            None,
+            None,
+            None,
+        );
+
+        let url = Url::parse("https://test-bucket.s3.amazonaws.com/test-object").unwrap();
+        let request = Request::new(Method::GET, url.clone());
+
+        let signed_request = client.sign(request, None).await.unwrap();
+        assert!(signed_request.url().as_str().contains("https://test-bucket.s3.amazonaws.com/test-object"));
+
+        let headers = signed_request.headers();
+        assert!(headers.contains_key(AUTHORIZATION));
+        let signed_url = signed_request.to_url_string();
+        assert!(signed_url.contains(access_key_id.as_str()));
+        assert!(signed_url.contains(region.as_str()));
+    }
+
+    #[test]
+    fn test_guess_service_region() {
+        let url = Url::parse("https://example-bucket.r2.cloudflarestorage.com").unwrap();
+        let headers = HeaderMap::new();
+
+        let (service, region) = guess_service_region(&url, &headers);
+
+        assert_eq!(service, "s3");
+        assert_eq!(region, "auto");
     }
 }
