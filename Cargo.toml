@@ -13,13 +13,16 @@ keywords = ["aws", "cloudflare", "worker", "R2","signature"]
 categories = ["web-programming", "network-programming"]
 
 [dependencies]
-reqwest = "0.12.7"
-chrono = "0.4"
 sha2 = "0.10"
 hmac = "0.12"
 url = "2"
+chrono = "0.4"
+percent-encoding = "2"
+urlencoding = "2"
 tokio = { version = "1", features = ["time"] }
-hex = "0.4.3"
+lazy_static = "1.4"
+reqwest = "0.12.7"
+
 
 [dev-dependencies]
 tokio = { version = "1", features = ["full"] }

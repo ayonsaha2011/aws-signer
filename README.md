@@ -1,3 +1,5 @@
+#  Not Working Need Some Fix, Happy to accept PRs
+
 
 # aws_signer
 
@@ -141,13 +143,18 @@ The library provides flexible configuration options through the `AwsOptions` str
 
 Contributions are welcome! Please submit issues or pull requests to help improve the library.
 
-## Support
+[//]: # ()
+[//]: # (## Support)
 
-Maintaining this library takes time and effort. If you find it useful, please consider supporting its development:
+[//]: # ()
+[//]: # (Maintaining this library takes time and effort. If you find it useful, please consider supporting its development:)
 
-- **[Buy Me a Coffee](https://www.buymeacoffee.com/ayonsaha2011)**: A small donation helps keep the project alive!
-- **[PayPal](https://www.paypal.me/ayonsaha2011)**: One-time donations are appreciated.
-- **[Patreon](https://www.patreon.com/ayonsaha2011)**: Become a supporter and get exclusive updates!
+[//]: # ()
+[//]: # (- **[Buy Me a Coffee]&#40;https://www.buymeacoffee.com/ayonsaha2011&#41;**: A small donation helps keep the project alive!)
+
+[//]: # (- **[PayPal]&#40;https://www.paypal.me/ayonsaha2011&#41;**: One-time donations are appreciated.)
+
+[//]: # (- **[Patreon]&#40;https://www.patreon.com/ayonsaha2011&#41;**: Become a supporter and get exclusive updates!)
 
 Your support will help in continuous development, maintenance, and adding new features to this library. Thank you!
 
